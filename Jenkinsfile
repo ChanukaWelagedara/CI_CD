@@ -11,21 +11,23 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {  
-                bat 'docker build -t adomicarts/nodeapp-cuban:%BUILD_NUMBER% .'
+                bat 'docker build -t chanukawelagedara/nodeapp-cuban:%BUILD_NUMBER% .'
             }
         }
         stage('Login to Docker Hub') {
             steps {
-                withCredentials([string(credentialsId: 'samin-docker', variable: 'samindocker')]) {
+                withCredentials([string(credentialsId: 'myapp-password', variable: 'myapp-dockerhubpass')]) {
                     script {
-                        bat "docker login -u adomicarts -p %samindocker%"
+                        bat "docker login -u chanukawelagedara -p %myapp-password%"
                     }
-                }
+    
+}
+                
             }
         }
         stage('Push Image') {
             steps {
-                bat 'docker push adomicarts/nodeapp-cuban:%BUILD_NUMBER%'
+                bat 'docker push chanukawelagedara/nodeapp-cuban:%BUILD_NUMBER%'
             }
         }
     }
